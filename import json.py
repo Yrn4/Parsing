@@ -1,11 +1,25 @@
-import json 
-class Student:
-    def __init__(self, name, age):
-        self.name=name
-        self.age=age
-stud = Student("Petr", 19)
-def student_to_dict(obj):
-    if isinstance(obj, Student):
-        return{"name": obj.name, "age": obj.age, "type": "Student"}
-    raise TypeError ("Unknown objet type")
-json_str = json.dumps(stud, default=student_to_dict)
+import json
+
+path = r"C:\Users\ropek\Downloads\Telegram Desktop\users.json"
+
+with open(path, "r", encoding="utf-8") as file:
+    users = json.load(file)
+
+cities = {}
+
+for user in users:
+    city = user["address"]["city"]
+    name = user["name"]
+
+    if city not in cities:
+        cities[city] = []
+
+    cities[city].append(name)
+
+
+output_path = r"C:\Users\ropek\Downloads\Telegram Desktop\users.json"
+
+with open(output_path, "w", encoding="utf-8") as file:
+    json.dump(cities, file, ensure_ascii=False, indent=4)
+
+print("Данные успешно сохранены!")
